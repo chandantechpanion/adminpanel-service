@@ -1,0 +1,19 @@
+appname: adminpanle
+port: 8283
+logger:
+    use: zapLogger
+    environment: dev
+    loglevel: debug
+    filename: adminpanle.log
+db:
+    use: mssql
+    mssql:
+        enabled: true
+        host: 13.234.152.155
+        port: 1433
+        userName: sa
+        password: Tpspl@123
+        database: Nimble_SP_NewDevelopment
+contacts:
+    name: 'Chandresh Sharma'
+    email: csharma@techpanion.com

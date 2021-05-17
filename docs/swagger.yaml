@@ -1,0 +1,733 @@
+basePath: /api/v1
+definitions:
+  adminUserInfo.Login:
+    properties:
+      login_user_name:
+        type: string
+      password:
+        type: string
+    type: object
+  buyerUserInfo.CreateBuyerUserInfo:
+    properties:
+      Address1:
+        type: string
+      Address2:
+        type: string
+      CIN:
+        type: string
+      City:
+        type: string
+      Country:
+        type: string
+      CustomerGST:
+        type: string
+      GST:
+        type: string
+      LegalName:
+        type: string
+      PAN:
+        type: string
+      Pincode:
+        type: string
+      State:
+        type: string
+      StateCode:
+        type: string
+      TradeName:
+        type: string
+      email_id:
+        type: string
+      mobile_number:
+        type: string
+    type: object
+  customerEntity.CustomerEntityViewModel:
+    properties:
+      customer_master_id:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  customerGroup.CustomerGroup:
+    properties:
+      created_date:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  customerGroup.CustomerGroupViewModel:
+    properties:
+      name:
+        type: string
+    type: object
+  customerGroupEntityRelation.CustomerGroupEntityRelation:
+    properties:
+      create_date:
+        type: string
+      customer_entity_id:
+        type: string
+      customer_group_id:
+        type: integer
+      customer_master_id:
+        type: integer
+      id:
+        type: integer
+    type: object
+  customerGroupEntityRelation.CustomerGroupEntityRelationViewModel:
+    properties:
+      customer_entity_id:
+        type: string
+      customer_group_id:
+        type: integer
+      customer_master_id:
+        type: integer
+    type: object
+  customerMaster.CustomerMaster:
+    properties:
+      create_date:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  customerMaster.CustomerMasterViewModel:
+    properties:
+      name:
+        type: string
+    type: object
+  customerMember.CustomerMember:
+    properties:
+      create_date:
+        type: string
+      customer_group_entity_relation_id:
+        type: integer
+      id:
+        type: integer
+      user_info_userid:
+        type: string
+    type: object
+  customerMember.CustomerMemberViewModel:
+    properties:
+      customer_group_entity_relation_id:
+        type: integer
+      user_info_userid:
+        type: string
+    type: object
+  user.CreateUser:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      login_user_name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+    type: object
+  user.User:
+    properties:
+      active_status:
+        type: boolean
+      email:
+        type: string
+      first_name:
+        type: string
+      is_email_confirmed:
+        type: boolean
+      last_name:
+        type: string
+      login_user_name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+      registration_date:
+        type: string
+      user_id:
+        type: string
+    type: object
+info:
+  contact:
+    email: chandresh@techpanion.com
+    name: API Support
+    url: http://www.techpanion.com/support
+  description: This is a sample server
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Techpanion Admin Portal API
+  version: "1.0"
+paths:
+  /access_token/:
+    post:
+      consumes:
+      - application/json
+      description: Pass valid credentials and Get the access token
+      parameters:
+      - description: Login
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/adminUserInfo.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: token
+          schema:
+            type: string
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: Get Access Token
+      tags:
+      - Login
+  /buyerUserinfo/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Here we will get particular user details
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: Get Particular UserInfo
+      tags:
+      - BuyerUserInfo
+  /buyerUsers/:
+    post:
+      consumes:
+      - application/json
+      description: Please create the buyer user for providing permission for buyer portal
+      parameters:
+      - description: Create User Details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/buyerUserInfo.CreateBuyerUserInfo'
+      produces:
+      - application/json
+      responses:
+        "201": {}
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: Create Buyer User
+      tags:
+      - BuyerUserInfo
+  /customerEntity/:
+    post:
+      consumes:
+      - application/json
+      description: Here Save customer info.
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Customer Details
+        in: body
+        name: cEntity
+        required: true
+        schema:
+          $ref: '#/definitions/customerEntity.CustomerEntityViewModel'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "400": {}
+        "404": {}
+        "409": {}
+        "500": {}
+      summary: Save Customer Info
+      tags:
+      - CustomerEntity
+  /customerEntity/{customer_master_id}:
+    get:
+      consumes:
+      - application/json
+      description: Here we can remve entity
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Customer Entity ID
+        in: path
+        name: customer_master_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: Get particular entity
+      tags:
+      - CustomerEntity
+  /customerGroup/:
+    get:
+      consumes:
+      - application/json
+      description: Here Get customer by id
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: id for Auth
+        in: header
+        name: id
+        required: true
+        type: integer
+      - description: Page Number
+        in: query
+        maximum: 100000
+        minimum: 1
+        name: Page
+        required: true
+        type: integer
+      - description: Records Per Page
+        in: query
+        maximum: 500
+        minimum: 1
+        name: RecordsPerPage
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/customerGroup.CustomerGroup'
+            type: array
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: Get Customer
+      tags:
+      - CustomerGroup
+    post:
+      consumes:
+      - application/json
+      description: Here Save customer info.
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Customer Details
+        in: body
+        name: cgroup
+        required: true
+        schema:
+          $ref: '#/definitions/customerGroup.CustomerGroupViewModel'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "400": {}
+        "404": {}
+        "409": {}
+        "500": {}
+      summary: Save Customer Info
+      tags:
+      - CustomerGroup
+  /customerGroup/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Here we can remve customer
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Customer Group ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: delete particular customer
+      tags:
+      - CustomerGroup
+  /customerGroupEntityRelation/:
+    get:
+      consumes:
+      - application/json
+      description: Here Get customer by id
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/customerGroupEntityRelation.CustomerGroupEntityRelation'
+            type: array
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: Get customerGroupEntityRelation
+      tags:
+      - CustomerGroupEntityRelation
+    post:
+      consumes:
+      - application/json
+      description: Here Save customer GroupEntityRelation info.
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Customer GroupEntityRelation Details
+        in: body
+        name: custM
+        required: true
+        schema:
+          $ref: '#/definitions/customerGroupEntityRelation.CustomerGroupEntityRelationViewModel'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: Save Customer Group EntityRelation Information
+      tags:
+      - CustomerGroupEntityRelation
+  /customerGroupEntityRelation/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Here we can remove particular customer
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Customer GroupEntityRelation ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: delete particular customer
+      tags:
+      - CustomerGroupEntityRelation
+    get:
+      consumes:
+      - application/json
+      description: Here Get customer by id
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/customerGroupEntityRelation.CustomerGroupEntityRelation'
+            type: array
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: Get CustomerGroupEntityRelation
+      tags:
+      - CustomerGroupEntityRelation
+  /customerMaster/:
+    get:
+      consumes:
+      - application/json
+      description: Here Get customer by id
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/customerMaster.CustomerMaster'
+            type: array
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: Get Customer
+      tags:
+      - CustomerMaster
+    post:
+      consumes:
+      - application/json
+      description: Here Save customer info.
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Customer Details
+        in: body
+        name: cMaster
+        required: true
+        schema:
+          $ref: '#/definitions/customerMaster.CustomerMasterViewModel'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "400": {}
+        "404": {}
+        "409": {}
+        "500": {}
+      summary: Save Customer Info
+      tags:
+      - CustomerMaster
+  /customerMaster/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Here we can remve customer
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Customer Master ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: delete particular customer
+      tags:
+      - CustomerMaster
+  /customerMember/:
+    post:
+      consumes:
+      - application/json
+      description: Here Save customer info.
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Customer Details
+        in: body
+        name: custM
+        required: true
+        schema:
+          $ref: '#/definitions/customerMember.CustomerMemberViewModel'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: Save Customer Info
+      tags:
+      - CustomerMember
+  /customerMember/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Here we can remove particular customer
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Customer Member ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: delete particular customer
+      tags:
+      - CustomerMember
+    get:
+      consumes:
+      - application/json
+      description: Here Get customer by id
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/customerMember.CustomerMember'
+            type: array
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: Get Customer
+      tags:
+      - CustomerMember
+  /users/:
+    post:
+      consumes:
+      - application/json
+      description: Please create the user for providing permission
+      parameters:
+      - description: Create User Details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.CreateUser'
+      produces:
+      - application/json
+      responses:
+        "201": {}
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: Create User
+      tags:
+      - User
+  /users/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Here we will get particular user details
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.User'
+        "400": {}
+        "404": {}
+        "500": {}
+      summary: Get Particular User
+      tags:
+      - User
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  BasicAuth:
+    type: basic
+  OAuth2AccessCode:
+    authorizationUrl: /access_token/
+    flow: accessCode
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+    tokenUrl: /access_token/
+    type: oauth2
+  OAuth2Application:
+    flow: application
+    tokenUrl: /access_token/
+    type: oauth2
+  OAuth2Implicit:
+    authorizationUrl: /access_token/
+    flow: implicit
+    type: oauth2
+  OAuth2Password:
+    flow: password
+    tokenUrl: /access_token/
+    type: oauth2
+swagger: "2.0"
